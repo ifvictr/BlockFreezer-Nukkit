@@ -10,15 +10,16 @@ public class BlockFreezerCommand extends Command{
     private BlockFreezer plugin;
     public BlockFreezerCommand(BlockFreezer plugin){
         super("blockfreezer", "Shows all BlockFreezer commands", null, new String[]{"bf"});
-        this.setPermission("blockfreezer.command.blockfreezer");
+        setPermission("blockfreezer.command.blockfreezer");
         this.plugin = plugin;
     }
     private void sendCommandHelp(CommandSender sender){
-        HashMap<String, String> commands = new HashMap<>();
-        commands.put("addblock", "Adds a block type to the specified world");
-        //commands.put("blocks", "Lists all the freezable block types for the specified world");
-        commands.put("delblock", "Removes a block type to the specified world");
-        commands.put("help", "Shows all BlockFreezer commands");
+        HashMap<String, String> commands = new HashMap<String, String>(){{
+            put("addblock", "Adds a block type to the specified world");
+            //put("blocks", "Lists all the freezable block types for the specified world");
+            put("delblock", "Removes a block type to the specified world");
+            put("help", "Shows all BlockFreezer commands");
+        }};
         sender.sendMessage("BlockFreezer commands:");
         for(String name : commands.keySet()){
             sender.sendMessage("/blockfreezer "+name+": "+commands.get(name));
@@ -26,7 +27,7 @@ public class BlockFreezerCommand extends Command{
     }
     @Override
     public boolean execute(CommandSender sender, String label, String[] args){
-        if(!this.testPermission(sender)){
+        if(!testPermission(sender)){
             return false;
         }
         if(args.length != 0){
@@ -34,7 +35,7 @@ public class BlockFreezerCommand extends Command{
                 case "a":
                 case "addblock":
                     if(args.length == 4){
-                        if(this.plugin.addBlock(Integer.parseInt(args[1]), Integer.parseInt(args[2]), args[3])){
+                        if(plugin.addBlock(Integer.parseInt(args[1]), Integer.parseInt(args[2]), args[3])){
                             sender.sendMessage(TextFormat.GREEN+"Successfully added "+args[1]+":"+args[2]+" to "+args[3]+".");
                         }
                         else{
@@ -59,7 +60,7 @@ public class BlockFreezerCommand extends Command{
                 case "d":
                 case "delblock":
                     if(args.length == 4){
-                        if(this.plugin.removeBlock(Integer.parseInt(args[1]), Integer.parseInt(args[2]), args[3])){
+                        if(plugin.removeBlock(Integer.parseInt(args[1]), Integer.parseInt(args[2]), args[3])){
                             sender.sendMessage(TextFormat.GREEN+"Successfully removed "+args[1]+":"+args[2]+" from "+args[3]+".");
                         }
                         else{
@@ -71,7 +72,7 @@ public class BlockFreezerCommand extends Command{
                     }
                     break;
                 case "help":
-                    this.sendCommandHelp(sender);
+                    sendCommandHelp(sender);
                     break;
                 default:
                     sender.sendMessage("Usage: /blockfreezer <sub-command> [parameters]");
@@ -79,7 +80,7 @@ public class BlockFreezerCommand extends Command{
             }
         }
         else{
-            this.sendCommandHelp(sender);
+            sendCommandHelp(sender);
             return false;
         }
         return true;

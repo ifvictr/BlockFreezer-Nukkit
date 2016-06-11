@@ -13,31 +13,31 @@ public class BlockFreezer extends PluginBase{
     private HashMap<String, Config> configs;
     @Override
     public void onEnable(){
-        this.getDataFolder().mkdirs();
-        this.configs = new HashMap<String, Config>();
-        for(Level level : this.getServer().getLevels().values()){
+        getDataFolder().mkdirs();
+        this.configs = new HashMap<>();
+        for(Level level : getServer().getLevels().values()){
             String ilevel = level.getName().toLowerCase();
-            this.configs.put(ilevel, new Config(new File(this.getDataFolder(), ilevel+".txt"), Config.ENUM));
+            configs.put(ilevel, new Config(new File(getDataFolder(), ilevel+".txt"), Config.ENUM));
         }
-        this.getServer().getCommandMap().register("blockfreezer", new BlockFreezerCommand(this));
-        this.getServer().getPluginManager().registerEvents(new BlockFreezerListener(this), this);
+        getServer().getCommandMap().register("blockfreezer", new BlockFreezerCommand(this));
+        getServer().getPluginManager().registerEvents(new BlockFreezerListener(this), this);
     }
     public boolean addBlock(int id, int damage, String level){
         level = level.toLowerCase();
-        if(this.configs.containsKey(level)){
-            this.configs.get(level).set(id+":"+damage, null);
-            this.configs.get(level).save();
+        if(configs.containsKey(level)){
+            configs.get(level).set(id+":"+damage, null);
+            configs.get(level).save();
             return true;
         }
         return false;
     }
     public boolean removeBlock(int id, int damage, String level){
         level = level.toLowerCase();
-        if(this.configs.containsKey(level)){
+        if(configs.containsKey(level)){
             String key = id+":"+damage;
-            if(this.configs.get(level).exists(key)){
-                this.configs.get(level).remove(key);
-                this.configs.get(level).save();
+            if(configs.get(level).exists(key)){
+                configs.get(level).remove(key);
+                configs.get(level).save();
                 return true;
             }
         }
@@ -45,8 +45,8 @@ public class BlockFreezer extends PluginBase{
     }
     public boolean isFreezable(Block block){
         String ilevel = block.getLevel().getName().toLowerCase();
-        if(this.configs.containsKey(ilevel)){
-            return this.configs.get(ilevel).exists(block.getId()+":"+block.getDamage(), true);
+        if(configs.containsKey(ilevel)){
+            return configs.get(ilevel).exists(block.getId()+":"+block.getDamage(), true);
         }
         return false;
     }

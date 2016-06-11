@@ -13,7 +13,7 @@ public class BlockFreezerListener implements Listener{
     }
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockUpdate(BlockUpdateEvent event){
-        if(this.plugin.isFreezable(event.getBlock())){
+        if(plugin.isFreezable(event.getBlock())){
             event.setCancelled(true);
         }
     }

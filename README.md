@@ -20,5 +20,5 @@ Main command: **blockfreezer**, **bf**
 ###Releases:
 |Version|Release Date|Download|
 |:-------:|------------|:--------:|
-|1.0.0|?|unavailable|
+|1.0.0|?|[available](http://forums.nukkit.cn/resources/blockfreezer.69/download?version=125)|
 |1.1.0|?|unavailable|
